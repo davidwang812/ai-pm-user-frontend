@@ -70,7 +70,7 @@ const routes = [
       {
         path: ':id/prd',
         name: 'PRDPreview',
-        component: () => import('@/modules/prd/views/PRDPreview.vue'),
+        component: () => import('@/modules/chat/components/PRDPreview.vue'),
         meta: { title: 'PRD文档' }
       }
     ]
