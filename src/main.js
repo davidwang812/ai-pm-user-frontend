@@ -1,51 +1,46 @@
 // main.js - Vue应用入口文件
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
-import ElementPlus from 'element-plus'
-import zhCn from 'element-plus/es/locale/lang/zh-cn'
-import * as ElementPlusIconsVue from '@element-plus/icons-vue'
-
-// 样式导入
-import 'element-plus/dist/index.css'
-import '@/assets/styles/global.scss'
-
-// 核心组件和配置
 import App from './App.vue'
 import router from './router'
 
-// 错误监控（尽早初始化）
-import errorMonitor from './utils/errorMonitor'
+// 样式导入 - 必须在这里导入
+import 'element-plus/dist/index.css'
+import './assets/styles/global.scss'
 
-// 创建Vue应用
+// 创建应用实例
 const app = createApp(App)
-
-// 创建Pinia状态管理
 const pinia = createPinia()
 
-// 注册Element Plus
-app.use(ElementPlus, {
-  locale: zhCn,
-  size: 'default'
-})
-
-// 注册所有Element Plus图标
-for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
-  app.component(key, component)
-}
-
-// 注册路由和状态管理
+// 注册核心功能
 app.use(pinia)
 app.use(router)
 
+// 延迟加载Element Plus - 避免循环依赖
+setTimeout(() => {
+  import('element-plus').then(ElementPlus => {
+    import('element-plus/es/locale/lang/zh-cn').then(zhCn => {
+      app.use(ElementPlus.default, {
+        locale: zhCn.default,
+        size: 'default'
+      })
+    })
+  })
+  
+  // 延迟加载图标
+  import('@element-plus/icons-vue').then(IconsVue => {
+    for (const [key, component] of Object.entries(IconsVue)) {
+      if (key !== 'default') {
+        app.component(key, component)
+      }
+    }
+  })
+}, 0)
+
 // 全局错误处理
 app.config.errorHandler = (err, vm, info) => {
-  console.error('Global error:', err)
-  console.error('Error info:', info)
-  // 错误监控系统会自动捕获
+  console.error('Vue Error:', err)
 }
-
-// 将错误监控暴露给Vue应用
-window.app = app
 
 // 挂载应用
 app.mount('#app')

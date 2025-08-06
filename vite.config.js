@@ -10,7 +10,9 @@ export default defineConfig({
   plugins: [
     vue(),
     AutoImport({
-      resolvers: [ElementPlusResolver()],
+      resolvers: [ElementPlusResolver({
+        importStyle: false  // 关键：禁用样式自动导入
+      })],
       imports: ['vue', 'vue-router', 'pinia'],
       dts: 'src/auto-imports.d.ts',
       eslintrc: {
@@ -18,7 +20,9 @@ export default defineConfig({
       }
     }),
     Components({
-      resolvers: [ElementPlusResolver()],
+      resolvers: [ElementPlusResolver({
+        importStyle: false  // 关键：禁用样式自动导入
+      })],
       dts: 'src/components.d.ts'
     })
   ],
@@ -45,7 +49,7 @@ export default defineConfig({
   build: {
     outDir: 'dist',
     sourcemap: false,
-    chunkSizeWarningLimit: 1500,
+    chunkSizeWarningLimit: 2000,
     minify: 'terser',
     terserOptions: {
       compress: {
@@ -55,35 +59,26 @@ export default defineConfig({
     },
     rollupOptions: {
       output: {
-        // 优化的代码分割策略，避免循环依赖
-        manualChunks: {
-          'element-plus': ['element-plus', '@element-plus/icons-vue'],
-          'vue-vendor': ['vue', 'vue-router', 'pinia'],
-          'utils': ['axios', 'dayjs', 'lodash-es']
-        },
-        // 确保chunk命名一致性
-        chunkFileNames: (chunkInfo) => {
-          const facadeModuleId = chunkInfo.facadeModuleId ? chunkInfo.facadeModuleId.split('/').pop() : 'chunk';
-          return `js/[name]-[hash].js`;
-        },
+        // 完全不使用manualChunks，让Vite自动处理
+        chunkFileNames: 'js/[name]-[hash].js',
         entryFileNames: 'js/[name]-[hash].js',
         assetFileNames: 'assets/[name]-[hash].[ext]'
       }
     }
   },
   optimizeDeps: {
-    // 预构建优化，确保Element Plus正确加载
     include: [
-      'element-plus/es',
-      'element-plus/es/components/*/style/css',
-      '@element-plus/icons-vue',
       'vue',
       'vue-router',
       'pinia',
       'axios',
-      'dayjs'
+      'dayjs',
+      'lodash-es'
     ],
-    // 排除不需要预构建的包
-    exclude: ['@vueuse/core']
+    // 关键：排除Element Plus避免预构建问题
+    exclude: [
+      'element-plus',
+      '@element-plus/icons-vue'
+    ]
   }
 })
