@@ -178,4 +178,6 @@ function getMockResponse(url, method, data) {
 
 // 根据环境选择客户端
 const useMock = import.meta.env.VITE_USE_MOCK === 'true'
-export { apiClient: useMock ? mockClient : apiClient }
+const client = useMock ? mockClient : apiClient
+
+export { client as apiClient }

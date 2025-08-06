@@ -278,7 +278,7 @@ import {
   ArrowDown,
   User,
   Promotion,
-  Crown
+  Trophy
 } from '@element-plus/icons-vue'
 import { useAuthStore } from '@/store/modules/auth'
 import { subscriptionAPI } from '@/services/api/subscription'
@@ -330,7 +330,7 @@ const plans = [
     description: '适合企业和专业团队',
     price: 99,
     color: '#e6a23c',
-    icon: Crown,
+    icon: Trophy,
     dailyTokens: 500000,
     maxProducts: 100,
     features: [
