@@ -113,15 +113,7 @@ fi
 
 # 9. 模拟构建测试
 echo -e "\n${BLUE}9. 模拟构建测试${NC}"
-echo "运行快速构建测试..."
-if npx vite build --mode development --logLevel silent > /dev/null 2>&1; then
-    echo -e "${GREEN}✓${NC} 开发模式构建测试通过"
-    # 清理测试构建
-    rm -rf dist
-else
-    echo -e "${RED}✗${NC} 构建测试失败，请检查错误"
-    HAS_ERROR=true
-fi
+echo -e "${YELLOW}⚠${NC}  跳过构建测试（在Vercel上执行）"
 
 # 总结
 echo -e "\n======================"

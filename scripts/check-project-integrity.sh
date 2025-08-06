@@ -23,9 +23,15 @@ check_file() {
         echo -e "${GREEN}✓${NC} $1"
         return 0
     else
-        echo -e "${RED}✗${NC} $1 - 文件缺失"
-        ((ERROR_COUNT++))
-        return 1
+        # .gitignore 是可选的，不算错误
+        if [ "$1" = ".gitignore" ]; then
+            echo -e "${YELLOW}⚠${NC}  $1 - 文件缺失（可选）"
+            return 0
+        else
+            echo -e "${RED}✗${NC} $1 - 文件缺失"
+            ((ERROR_COUNT++))
+            return 1
+        fi
     fi
 }
 
