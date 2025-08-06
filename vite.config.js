@@ -49,7 +49,7 @@ export default defineConfig({
   build: {
     outDir: 'dist',
     sourcemap: false,
-    chunkSizeWarningLimit: 2000,
+    chunkSizeWarningLimit: 5000,  // 增加限制因为会打包成单文件
     minify: 'terser',
     terserOptions: {
       compress: {
@@ -59,8 +59,7 @@ export default defineConfig({
     },
     rollupOptions: {
       output: {
-        // 完全不使用manualChunks，让Vite自动处理
-        chunkFileNames: 'js/[name]-[hash].js',
+        inlineDynamicImports: true,  // 关键：将所有代码打包到一个文件，彻底避免模块加载顺序问题
         entryFileNames: 'js/[name]-[hash].js',
         assetFileNames: 'assets/[name]-[hash].[ext]'
       }
