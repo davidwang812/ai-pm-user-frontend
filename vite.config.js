@@ -43,14 +43,30 @@ export default defineConfig({
     outDir: 'dist',
     sourcemap: false,
     chunkSizeWarningLimit: 1500,
+    minify: 'terser',
+    terserOptions: {
+      compress: {
+        drop_console: true,
+        drop_debugger: true
+      }
+    },
     rollupOptions: {
       output: {
-        manualChunks: {
-          'element-plus': ['element-plus'],
-          'echarts': ['echarts'],
-          'vendor': ['vue', 'vue-router', 'pinia', 'axios', 'dayjs']
+        manualChunks: (id) => {
+          if (id.includes('element-plus')) {
+            return 'element-plus'
+          }
+          if (id.includes('echarts')) {
+            return 'echarts'
+          }
+          if (id.includes('node_modules')) {
+            return 'vendor'
+          }
         }
       }
     }
+  },
+  optimizeDeps: {
+    include: ['element-plus', 'vue', 'vue-router', 'pinia']
   }
 })
