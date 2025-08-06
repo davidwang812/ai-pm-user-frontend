@@ -1,0 +1,76 @@
+name: "用户登录测试"
+description: "验证用户登录功能的各种场景"
+tags:
+  - auth
+  - smoke
+  - critical
+environment: "production"
+
+test-data:
+  valid-user:
+    email: "test@example.com"
+    password: "Test123456!"
+  invalid-user:
+    email: "invalid@example.com"
+    password: "wrongpassword"
+  invalid-email:
+    email: "notanemail"
+    password: "Test123456!"
+
+scenarios:
+  - name: "成功登录"
+    steps:
+      - "打开登录页面"
+      - "输入邮箱 '${valid-user.email}'"
+      - "输入密码 '${valid-user.password}'"
+      - "点击登录按钮"
+      - "验证跳转到首页"
+      - "验证显示用户信息"
+    expected:
+      - "页面URL包含 'home' 或 'dashboard'"
+      - "显示用户头像"
+      - "显示Token余额"
+
+  - name: "无效凭据登录"
+    steps:
+      - "打开登录页面"
+      - "输入邮箱 '${invalid-user.email}'"
+      - "输入密码 '${invalid-user.password}'"
+      - "点击登录按钮"
+      - "等待错误提示"
+    expected:
+      - "显示错误消息"
+      - "保持在登录页面"
+      - "错误消息包含 '用户名或密码错误'"
+
+  - name: "邮箱格式验证"
+    steps:
+      - "打开登录页面"
+      - "输入邮箱 '${invalid-email.email}'"
+      - "输入密码 '${invalid-email.password}'"
+      - "点击登录按钮"
+    expected:
+      - "显示邮箱格式错误"
+      - "无法提交表单"
+
+  - name: "空字段验证"
+    steps:
+      - "打开登录页面"
+      - "不输入任何内容"
+      - "点击登录按钮"
+    expected:
+      - "显示必填字段错误"
+      - "邮箱字段显示 '请输入邮箱'"
+      - "密码字段显示 '请输入密码'"
+
+  - name: "记住登录状态"
+    steps:
+      - "打开登录页面"
+      - "输入有效凭据"
+      - "勾选'记住我'"
+      - "点击登录"
+      - "登录成功后退出"
+      - "重新打开登录页面"
+    expected:
+      - "邮箱字段已填充"
+      - "记住我选项已勾选"

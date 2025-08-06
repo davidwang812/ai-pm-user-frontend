@@ -1,0 +1,118 @@
+name: E2E Tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+  schedule:
+    # 每天北京时间早上8点运行
+    - cron: '0 0 * * *'
+
+env:
+  TEST_BASE_URL: https://ai-pm-user-frontend.vercel.app
+
+jobs:
+  test:
+    name: Playwright E2E Tests
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        browser: [chromium, firefox, webkit]
+        
+    steps:
+    - name: 检出代码
+      uses: actions/checkout@v4
+      
+    - name: 设置 Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        
+    - name: 安装依赖
+      run: npm ci
+      
+    - name: 安装 Playwright 浏览器
+      run: npx playwright install --with-deps ${{ matrix.browser }}
+      
+    - name: 运行 E2E 测试
+      run: npx playwright test --project=${{ matrix.browser }}
+      env:
+        CI: true
+        
+    - name: 上传测试结果
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: playwright-report-${{ matrix.browser }}
+        path: test-results/
+        retention-days: 30
+        
+    - name: 上传测试截图
+      if: failure()
+      uses: actions/upload-artifact@v4
+      with:
+        name: screenshots-${{ matrix.browser }}
+        path: test-results/screenshots/
+        retention-days: 7
+
+  test-summary:
+    name: 测试总结
+    runs-on: ubuntu-latest
+    needs: test
+    if: always()
+    
+    steps:
+    - name: 检出代码
+      uses: actions/checkout@v4
+      
+    - name: 下载所有测试结果
+      uses: actions/download-artifact@v4
+      with:
+        path: all-results/
+        
+    - name: 生成测试报告摘要
+      run: |
+        echo "# E2E 测试结果" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "## 测试执行时间: $(date)" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        
+        # 添加测试统计
+        echo "### 浏览器测试结果" >> $GITHUB_STEP_SUMMARY
+        echo "| 浏览器 | 状态 |" >> $GITHUB_STEP_SUMMARY
+        echo "|--------|------|" >> $GITHUB_STEP_SUMMARY
+        
+        for browser in chromium firefox webkit; do
+          if [ -d "all-results/playwright-report-$browser" ]; then
+            echo "| $browser | ✅ 完成 |" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "| $browser | ❌ 失败 |" >> $GITHUB_STEP_SUMMARY
+          fi
+        done
+
+  deploy-test-report:
+    name: 部署测试报告
+    runs-on: ubuntu-latest
+    needs: test
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    
+    steps:
+    - name: 检出代码
+      uses: actions/checkout@v4
+      
+    - name: 下载测试报告
+      uses: actions/download-artifact@v4
+      with:
+        name: playwright-report-chromium
+        path: playwright-report/
+        
+    - name: 部署到 GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./playwright-report
+        destination_dir: test-reports/latest

@@ -1,0 +1,101 @@
+name: "用户注册测试"
+description: "验证新用户注册功能"
+tags:
+  - auth
+  - smoke
+  - critical
+environment: "production"
+
+test-data:
+  new-user:
+    email: "newuser_${timestamp}@example.com"
+    username: "testuser_${timestamp}"
+    password: "Test123456!"
+    confirmPassword: "Test123456!"
+  
+  existing-user:
+    email: "test@example.com"
+    username: "existinguser"
+    password: "Test123456!"
+  
+  weak-password:
+    email: "weak_${timestamp}@example.com"
+    username: "weakuser"
+    password: "123"
+  
+  mismatched-password:
+    email: "mismatch_${timestamp}@example.com"
+    username: "mismatchuser"
+    password: "Test123456!"
+    confirmPassword: "Different123!"
+
+scenarios:
+  - name: "成功注册新用户"
+    steps:
+      - "打开注册页面"
+      - "输入邮箱 '${new-user.email}'"
+      - "输入用户名 '${new-user.username}'"
+      - "输入密码 '${new-user.password}'"
+      - "输入确认密码 '${new-user.confirmPassword}'"
+      - "勾选同意条款"
+      - "点击注册按钮"
+      - "等待注册完成"
+    expected:
+      - "显示注册成功消息"
+      - "自动跳转到登录页面"
+      - "或显示 '注册成功，请登录'"
+
+  - name: "重复邮箱注册"
+    steps:
+      - "打开注册页面"
+      - "输入已存在的邮箱 '${existing-user.email}'"
+      - "填写其他有效信息"
+      - "点击注册按钮"
+    expected:
+      - "显示错误消息"
+      - "错误消息包含 '邮箱已被注册'"
+      - "保持在注册页面"
+
+  - name: "密码强度验证"
+    steps:
+      - "打开注册页面"
+      - "输入邮箱 '${weak-password.email}'"
+      - "输入用户名 '${weak-password.username}'"
+      - "输入弱密码 '${weak-password.password}'"
+    expected:
+      - "显示密码强度提示"
+      - "提示包含 '密码长度至少8位'"
+      - "或提示 '需要包含大小写字母和数字'"
+
+  - name: "密码不匹配"
+    steps:
+      - "打开注册页面"
+      - "填写邮箱和用户名"
+      - "输入密码 '${mismatched-password.password}'"
+      - "输入确认密码 '${mismatched-password.confirmPassword}'"
+      - "点击注册"
+    expected:
+      - "显示密码不匹配错误"
+      - "错误消息包含 '两次输入的密码不一致'"
+
+  - name: "邮箱格式验证"
+    steps:
+      - "打开注册页面"
+      - "输入无效邮箱 'notanemail'"
+      - "输入其他有效信息"
+      - "尝试提交表单"
+    expected:
+      - "显示邮箱格式错误"
+      - "错误消息包含 '请输入有效的邮箱地址'"
+      - "无法提交表单"
+
+  - name: "必填字段验证"
+    steps:
+      - "打开注册页面"
+      - "不填写任何信息"
+      - "点击注册按钮"
+    expected:
+      - "所有必填字段显示错误"
+      - "邮箱字段提示 '请输入邮箱'"
+      - "用户名字段提示 '请输入用户名'"
+      - "密码字段提示 '请输入密码'"
