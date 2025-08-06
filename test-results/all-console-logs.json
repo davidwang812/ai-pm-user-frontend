@@ -1,0 +1,23 @@
+{
+  "timestamp": "2025-08-06T08:32:10.011Z",
+  "url": "https://ai-pm-user-frontend.vercel.app",
+  "diagnosis": {
+    "url": "https://ai-pm-user-frontend.vercel.app/",
+    "title": "AI产品经理",
+    "readyState": "complete",
+    "errorDetails": {
+      "error": "App is empty",
+      "vueApp": false,
+      "childNodes": 0
+    },
+    "scripts": [
+      {
+        "src": "https://ai-pm-user-frontend.vercel.app/assets/index-BVO3Y3lL.js",
+        "async": false,
+        "defer": false,
+        "type": "module"
+      }
+    ]
+  },
+  "logs": []
+}

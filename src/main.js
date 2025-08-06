@@ -13,6 +13,9 @@ import '@/assets/styles/global.scss'
 import App from './App.vue'
 import router from './router'
 
+// 错误监控（尽早初始化）
+import errorMonitor from './utils/errorMonitor'
+
 // 创建Vue应用
 const app = createApp(App)
 
@@ -38,8 +41,11 @@ app.use(router)
 app.config.errorHandler = (err, vm, info) => {
   console.error('Global error:', err)
   console.error('Error info:', info)
-  // 可以集成错误上报服务
+  // 错误监控系统会自动捕获
 }
+
+// 将错误监控暴露给Vue应用
+window.app = app
 
 // 挂载应用
 app.mount('#app')
