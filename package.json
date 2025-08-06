@@ -17,7 +17,15 @@
     "test:debug": "node tests/e2e/utils/test-runner.js debug",
     "test:report": "playwright show-report",
     "test:ui": "playwright test --ui",
-    "test:install": "playwright install"
+    "test:install": "playwright install",
+    "test:auth": "./run-tests.sh -s auth",
+    "test:ai": "./run-tests.sh -s ai",
+    "test:product": "./run-tests.sh -s product",
+    "test:websocket": "playwright test tests/e2e/specs/websocket.spec.js",
+    "test:performance": "playwright test tests/e2e/specs/performance.spec.js",
+    "test:collect": "node tests/e2e/utils/result-collector.js",
+    "test:dashboard": "open tests/dashboard/index.html",
+    "test:ci": "playwright test --reporter=json,html"
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.3.1",
@@ -37,6 +45,7 @@
   "devDependencies": {
     "@playwright/test": "^1.54.2",
     "@vitejs/plugin-vue": "^4.5.0",
+    "chalk": "^5.3.0",
     "js-yaml": "^4.1.0",
     "playwright": "^1.54.2",
     "sass": "^1.69.5",
