@@ -1,12 +1,17 @@
 {
   "version": 2,
+  "github": {
+    "silent": false,
+    "autoAlias": false
+  },
   "framework": "vue",
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
   "installCommand": "npm install",
   "env": {
     "VITE_API_BASE_URL": "https://aiproductmanager-production.up.railway.app/api",
-    "VITE_WS_URL": "wss://aiproductmanager-production.up.railway.app"
+    "VITE_WS_URL": "wss://aiproductmanager-production.up.railway.app",
+    "FORCE_REBUILD": "2025-08-06-23-42"
   },
   "build": {
     "env": {
