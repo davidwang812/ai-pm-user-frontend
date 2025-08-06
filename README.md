@@ -47,3 +47,5 @@ VITE_WS_URL=你的WebSocket地址
 ## License
 
 MIT
+
+<!-- Deployment Trigger: 2025-08-06_13:23:40 -->
