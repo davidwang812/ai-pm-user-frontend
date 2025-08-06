@@ -12,7 +12,10 @@ export default defineConfig({
     AutoImport({
       resolvers: [ElementPlusResolver()],
       imports: ['vue', 'vue-router', 'pinia'],
-      dts: 'src/auto-imports.d.ts'
+      dts: 'src/auto-imports.d.ts',
+      eslintrc: {
+        enabled: false
+      }
     }),
     Components({
       resolvers: [ElementPlusResolver()],
@@ -52,21 +55,35 @@ export default defineConfig({
     },
     rollupOptions: {
       output: {
-        manualChunks: (id) => {
-          if (id.includes('element-plus')) {
-            return 'element-plus'
-          }
-          if (id.includes('echarts')) {
-            return 'echarts'
-          }
-          if (id.includes('node_modules')) {
-            return 'vendor'
-          }
-        }
+        // 优化的代码分割策略，避免循环依赖
+        manualChunks: {
+          'element-plus': ['element-plus', '@element-plus/icons-vue'],
+          'vue-vendor': ['vue', 'vue-router', 'pinia'],
+          'utils': ['axios', 'dayjs', 'lodash-es']
+        },
+        // 确保chunk命名一致性
+        chunkFileNames: (chunkInfo) => {
+          const facadeModuleId = chunkInfo.facadeModuleId ? chunkInfo.facadeModuleId.split('/').pop() : 'chunk';
+          return `js/[name]-[hash].js`;
+        },
+        entryFileNames: 'js/[name]-[hash].js',
+        assetFileNames: 'assets/[name]-[hash].[ext]'
       }
     }
   },
   optimizeDeps: {
-    include: ['element-plus', 'vue', 'vue-router', 'pinia']
+    // 预构建优化，确保Element Plus正确加载
+    include: [
+      'element-plus/es',
+      'element-plus/es/components/*/style/css',
+      '@element-plus/icons-vue',
+      'vue',
+      'vue-router',
+      'pinia',
+      'axios',
+      'dayjs'
+    ],
+    // 排除不需要预构建的包
+    exclude: ['@vueuse/core']
   }
 })
