@@ -235,4 +235,61 @@ export const initErrorMonitoring = () => {
 
 ---
 
+## 🚨 问题 #004: 缺少 store/index.js 导致构建失败
+
+### 问题描述
+- **发生时间**: 2025-08-06
+- **影响范围**: Vercel构建失败
+- **错误信息**: `src/store/index.js - 文件缺失`
+- **发现方式**: 项目完整性检查脚本
+
+### 根因分析
+1. **直接原因**: store/index.js文件未创建
+2. **深层原因**:
+   - 项目初始化时遗漏了这个文件
+   - 构建检查脚本在之前没有运行
+
+### 解决方案
+1. **立即修复**: 创建src/store/index.js文件
+2. **文件内容**: Pinia store的主入口，导出所有store模块
+
+### 长期预防措施
+
+#### 1. 强制构建前检查
+```json
+// package.json
+{
+  "scripts": {
+    "build": "npm run prebuild && vite build",
+    "build:no-check": "vite build"  // 仅在紧急情况使用
+  }
+}
+```
+
+#### 2. 项目模板完整性
+创建项目初始化模板，确保所有必需文件都被创建：
+```bash
+# scripts/init-project-structure.sh
+#!/bin/bash
+REQUIRED_FILES=(
+  "src/store/index.js"
+  "src/router/index.js"
+  "src/utils/index.js"
+  "src/services/index.js"
+)
+
+for file in "${REQUIRED_FILES[@]}"; do
+  if [ ! -f "$file" ]; then
+    echo "Creating $file..."
+    mkdir -p $(dirname "$file")
+    touch "$file"
+  fi
+done
+```
+
+#### 3. CI/CD集成检查
+在GitHub Actions中添加完整性检查步骤，在推送代码时就发现问题。
+
+---
+
 最后更新: 2025-08-06
