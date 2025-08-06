@@ -1,7 +1,7 @@
 {
   "version": 2,
   "framework": "vue",
-  "buildCommand": "npm run build",
+  "buildCommand": "npm run build:vercel",
   "outputDirectory": "dist",
   "installCommand": "npm install",
   "env": {
