@@ -1,0 +1,184 @@
+// transitions.scss - 过渡动画样式
+
+// 基础过渡
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity $transition-duration;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+// 滑动过渡
+.slide-fade-enter-active {
+  transition: all $transition-duration ease;
+}
+
+.slide-fade-leave-active {
+  transition: all $transition-duration-fast cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+  transform: translateX(10px);
+  opacity: 0;
+}
+
+// 缩放过渡
+.scale-enter-active,
+.scale-leave-active {
+  transition: all $transition-duration;
+}
+
+.scale-enter-from,
+.scale-leave-to {
+  transform: scale(0.9);
+  opacity: 0;
+}
+
+// 列表过渡
+.list-enter-active,
+.list-leave-active {
+  transition: all $transition-duration;
+}
+
+.list-enter-from,
+.list-leave-to {
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+// 展开收起过渡
+.expand-enter-active,
+.expand-leave-active {
+  transition: all $transition-duration ease;
+  overflow: hidden;
+}
+
+.expand-enter-from,
+.expand-leave-to {
+  max-height: 0;
+  opacity: 0;
+}
+
+// 弹窗过渡
+.popup-enter-active {
+  transition: all $transition-duration ease;
+}
+
+.popup-leave-active {
+  transition: all $transition-duration-fast ease;
+}
+
+.popup-enter-from {
+  transform: scale(1.1);
+  opacity: 0;
+}
+
+.popup-leave-to {
+  transform: scale(0.9);
+  opacity: 0;
+}
+
+// 抽屉过渡
+.drawer-enter-active,
+.drawer-leave-active {
+  transition: transform $transition-duration;
+}
+
+.drawer-enter-from,
+.drawer-leave-to {
+  &.drawer-left {
+    transform: translateX(-100%);
+  }
+  
+  &.drawer-right {
+    transform: translateX(100%);
+  }
+  
+  &.drawer-top {
+    transform: translateY(-100%);
+  }
+  
+  &.drawer-bottom {
+    transform: translateY(100%);
+  }
+}
+
+// 旋转过渡
+.rotate-enter-active,
+.rotate-leave-active {
+  transition: all $transition-duration;
+}
+
+.rotate-enter-from {
+  transform: rotate(-180deg);
+  opacity: 0;
+}
+
+.rotate-leave-to {
+  transform: rotate(180deg);
+  opacity: 0;
+}
+
+// 翻转过渡
+.flip-enter-active,
+.flip-leave-active {
+  transition: all $transition-duration;
+  backface-visibility: hidden;
+}
+
+.flip-enter-from {
+  transform: rotateY(180deg);
+}
+
+.flip-leave-to {
+  transform: rotateY(-180deg);
+}
+
+// 渐变背景过渡
+.gradient-transition {
+  transition: background $transition-duration-slow ease;
+}
+
+// 通用过渡类
+.transition-all {
+  transition: all $transition-duration ease;
+}
+
+.transition-colors {
+  transition: color $transition-duration ease,
+              background-color $transition-duration ease,
+              border-color $transition-duration ease;
+}
+
+.transition-transform {
+  transition: transform $transition-duration ease;
+}
+
+.transition-opacity {
+  transition: opacity $transition-duration ease;
+}
+
+// 延迟类
+.delay-100 {
+  transition-delay: 100ms;
+}
+
+.delay-200 {
+  transition-delay: 200ms;
+}
+
+.delay-300 {
+  transition-delay: 300ms;
+}
+
+.delay-400 {
+  transition-delay: 400ms;
+}
+
+.delay-500 {
+  transition-delay: 500ms;
+}

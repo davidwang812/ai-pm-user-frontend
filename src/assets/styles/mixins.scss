@@ -1,0 +1,148 @@
+// mixins.scss - SCSS混入函数
+
+// 文本省略
+@mixin text-ellipsis($lines: 1) {
+  @if $lines == 1 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  } @else {
+    display: -webkit-box;
+    -webkit-line-clamp: $lines;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+// Flex布局
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@mixin flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+// 定位
+@mixin absolute-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+@mixin fixed-center {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+// 尺寸
+@mixin size($width, $height: $width) {
+  width: $width;
+  height: $height;
+}
+
+// 响应式
+@mixin respond-to($breakpoint) {
+  @if $breakpoint == 'xs' {
+    @media (max-width: $breakpoint-xs) { @content; }
+  } @else if $breakpoint == 'sm' {
+    @media (min-width: #{$breakpoint-xs + 1px}) and (max-width: $breakpoint-sm) { @content; }
+  } @else if $breakpoint == 'md' {
+    @media (min-width: #{$breakpoint-sm + 1px}) and (max-width: $breakpoint-md) { @content; }
+  } @else if $breakpoint == 'lg' {
+    @media (min-width: #{$breakpoint-md + 1px}) and (max-width: $breakpoint-lg) { @content; }
+  } @else if $breakpoint == 'xl' {
+    @media (min-width: #{$breakpoint-lg + 1px}) and (max-width: $breakpoint-xl) { @content; }
+  } @else if $breakpoint == '2xl' {
+    @media (min-width: #{$breakpoint-xl + 1px}) { @content; }
+  }
+}
+
+// 滚动条样式
+@mixin scrollbar($width: 6px, $track-color: #f1f1f1, $thumb-color: #888) {
+  &::-webkit-scrollbar {
+    width: $width;
+    height: $width;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: $track-color;
+    border-radius: $width / 2;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background: $thumb-color;
+    border-radius: $width / 2;
+    
+    &:hover {
+      background: darken($thumb-color, 10%);
+    }
+  }
+}
+
+// 卡片样式
+@mixin card($padding: $spacing-lg, $radius: $border-radius-base) {
+  background: $bg-color-light;
+  border-radius: $radius;
+  padding: $padding;
+  box-shadow: $shadow-base;
+  transition: box-shadow $transition-duration;
+  
+  &:hover {
+    box-shadow: $shadow-md;
+  }
+}
+
+// 按钮样式
+@mixin button-variant($color, $background, $border) {
+  color: $color;
+  background-color: $background;
+  border-color: $border;
+  
+  &:hover:not(:disabled) {
+    background-color: darken($background, 10%);
+    border-color: darken($border, 10%);
+  }
+  
+  &:active:not(:disabled) {
+    background-color: darken($background, 15%);
+    border-color: darken($border, 15%);
+  }
+  
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+// 渐变背景
+@mixin gradient-bg($start-color, $end-color, $angle: 135deg) {
+  background: linear-gradient($angle, $start-color 0%, $end-color 100%);
+}
+
+// 动画
+@mixin transition($property: all, $duration: $transition-duration, $timing: ease) {
+  transition: $property $duration $timing;
+}
+
+// 清除浮动
+@mixin clearfix {
+  &::after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+}
