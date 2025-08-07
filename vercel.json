@@ -4,19 +4,20 @@
     "silent": false,
     "autoAlias": false
   },
-  "framework": "vue",
-  "buildCommand": "npm run build",
+  "framework": null,
+  "buildCommand": "npm install && npm run build:no-check",
   "outputDirectory": "dist",
   "installCommand": "npm install",
   "env": {
-    "VITE_API_BASE_URL": "https://aiproductmanager-production.up.railway.app/api",
+    "VITE_API_BASE_URL": "https://aiproductmanager-production.up.railway.app",
     "VITE_WS_URL": "wss://aiproductmanager-production.up.railway.app",
-    "FORCE_REBUILD": "2025-08-06-23-42"
+    "NODE_VERSION": "18"
   },
   "build": {
     "env": {
-      "VITE_API_BASE_URL": "https://aiproductmanager-production.up.railway.app/api",
-      "VITE_WS_URL": "wss://aiproductmanager-production.up.railway.app"
+      "VITE_API_BASE_URL": "https://aiproductmanager-production.up.railway.app",
+      "VITE_WS_URL": "wss://aiproductmanager-production.up.railway.app",
+      "NODE_VERSION": "18"
     }
   },
   "rewrites": [

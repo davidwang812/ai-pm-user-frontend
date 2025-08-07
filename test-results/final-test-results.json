@@ -1,0 +1,12 @@
+{
+  "formElements": {
+    "email": true,
+    "username": true,
+    "password": true,
+    "confirmPassword": false,
+    "submitButton": true
+  },
+  "apiCalls": [],
+  "errors": [],
+  "success": false
+}
