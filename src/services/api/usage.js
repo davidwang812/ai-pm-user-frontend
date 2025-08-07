@@ -3,6 +3,14 @@ import { apiClient } from './base'
 
 export const usageAPI = {
   /**
+   * 获取概览数据（Dashboard用）
+   * @returns {Promise}
+   */
+  getOverview() {
+    return apiClient.get('/usage/overview')
+  },
+  
+  /**
    * 获取使用统计
    * @returns {Promise}
    */
