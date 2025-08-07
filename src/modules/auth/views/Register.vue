@@ -223,6 +223,26 @@ const handleRegister = async () => {
     font-weight: 500;
     color: #606266;
   }
+  
+  // 修复输入框文字颜色太浅的问题
+  :deep(.el-input__inner) {
+    color: #303133 !important; // 深灰色，更清晰
+    
+    &::placeholder {
+      color: #909399; // placeholder保持适度的浅灰
+    }
+  }
+  
+  // 确保输入时文字清晰可见
+  :deep(.el-input) {
+    .el-input__inner {
+      font-size: 14px;
+      
+      &:focus {
+        color: #303133 !important;
+      }
+    }
+  }
 }
 
 .register-footer {
