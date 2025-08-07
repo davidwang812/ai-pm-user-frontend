@@ -7,7 +7,12 @@ import { ElMessage } from 'element-plus'
 const routes = [
   {
     path: '/',
-    redirect: '/dashboard'
+    name: 'Landing',
+    component: () => import('@/modules/home/views/LandingPage.vue'),
+    meta: {
+      title: 'AI产品经理 - 用AI重新定义产品管理',
+      public: true
+    }
   },
   {
     path: '/login',
