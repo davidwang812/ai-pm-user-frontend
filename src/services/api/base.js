@@ -7,6 +7,7 @@ import router from '@/router'
 const getBaseURL = () => {
   // 生产环境使用配置的API URL
   if (import.meta.env.PROD && import.meta.env.VITE_API_BASE_URL) {
+    // 环境变量已经是完整的API基础URL，直接添加/api
     return `${import.meta.env.VITE_API_BASE_URL}/api`
   }
   // 开发环境使用代理
