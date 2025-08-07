@@ -178,7 +178,8 @@ const handleRegister = async () => {
         ElMessage.success('注册成功！')
         router.push('/login')
       } catch (error) {
-        ElMessage.error(error.message || '注册失败，请稍后重试')
+        // 不显示重复的错误消息（base.js已经处理了）
+        console.log('注册错误:', error)
       } finally {
         loading.value = false
       }

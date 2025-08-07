@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>注册测试</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <h1>直接API测试</h1>
+    <div id="result"></div>
+    
+    <script>
+    async function testRegister() {
+        const timestamp = Date.now().toString().slice(-6);
+        const testData = {
+            username: `testuser${timestamp}`,
+            email: `test${timestamp}@example.com`,
+            password: `Test123456!`
+        };
+        
+        console.log('🔍 测试注册API:', testData);
+        
+        try {
+            const response = await fetch('https://aiproductmanager-production.up.railway.app/api/auth/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(testData)
+            });
+            
+            console.log('📡 响应状态:', response.status);
+            
+            const data = await response.json();
+            console.log('📥 响应数据:', data);
+            
+            document.getElementById('result').innerHTML = `
+                <h2>测试结果</h2>
+                <p><strong>状态:</strong> ${response.status}</p>
+                <p><strong>成功:</strong> ${data.success ? '✅ 是' : '❌ 否'}</p>
+                <p><strong>消息:</strong> ${data.message || '无'}</p>
+                <pre>${JSON.stringify(data, null, 2)}</pre>
+            `;
+            
+        } catch (error) {
+            console.error('❌ 测试失败:', error);
+            document.getElementById('result').innerHTML = `
+                <h2>测试失败</h2>
+                <p><strong>错误:</strong> ${error.message}</p>
+            `;
+        }
+    }
+    
+    // 立即执行测试
+    testRegister();
+    </script>
+</body>
+</html>

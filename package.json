@@ -9,9 +9,9 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "npx vite build",
+    "build": "vite build",
     "build:local": "npm run prebuild && npx vite build",
-    "build:no-check": "npx vite build",
+    "build:no-check": "vite build",
     "build:vercel": "node node_modules/vite/bin/vite.js build",
     "preview": "vite preview",
     "prebuild": "npm run check:integrity && npm run check:build",

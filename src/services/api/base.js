@@ -99,6 +99,12 @@ apiClient.interceptors.response.use(
         ElMessage.error('请求的资源不存在')
         break
         
+      case 409:
+        // 冲突 - 通常是用户名或邮箱已存在
+        const conflictMessage = response.data?.message || '该用户名或邮箱已被注册'
+        ElMessage.warning(conflictMessage)
+        break
+        
       case 429:
         ElMessage.warning('请求过于频繁，请稍后再试')
         break
