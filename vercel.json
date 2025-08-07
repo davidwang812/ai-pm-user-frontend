@@ -5,7 +5,7 @@
     "autoAlias": false
   },
   "framework": null,
-  "buildCommand": "npm install && npm run build:no-check",
+  "buildCommand": "npm run build:vercel",
   "outputDirectory": "dist",
   "installCommand": "npm install",
   "env": {
