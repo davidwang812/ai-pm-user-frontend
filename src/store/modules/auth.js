@@ -80,11 +80,9 @@ export const useAuthStore = defineStore('auth', () => {
       const response = await authAPI.register(userData)
       
       if (response.success) {
-        // 注册成功后自动登录
-        return await login({
-          email: userData.email,
-          password: userData.password
-        })
+        // 注册成功后直接设置认证信息（不再自动登录）
+        setAuth(response.data)
+        return response.data
       } else {
         throw new Error(response.message || '注册失败')
       }
