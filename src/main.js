@@ -18,13 +18,12 @@ app.use(router)
 // 挂载应用 - 不使用Element Plus，先让应用能运行
 app.mount('#app')
 
-// 然后再尝试加载Element Plus
+// 异步加载Element Plus
 window.addEventListener('load', () => {
   import('element-plus').then(module => {
     const ElementPlus = module.default
     app.use(ElementPlus)
-    console.log('Element Plus loaded successfully')
-  }).catch(err => {
-    console.error('Failed to load Element Plus:', err)
+  }).catch(() => {
+    // Element Plus加载失败，静默处理
   })
 })

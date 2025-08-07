@@ -179,8 +179,7 @@ const handleRegister = async () => {
         // 注册成功后直接进入仪表板（因为已经自动登录）
         router.push('/dashboard')
       } catch (error) {
-        // 不显示重复的错误消息（base.js已经处理了）
-        console.log('注册错误:', error)
+        // 错误已由base.js处理
       } finally {
         loading.value = false
       }

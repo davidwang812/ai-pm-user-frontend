@@ -251,7 +251,6 @@ const loadDashboardData = async () => {
       }
     } catch (error) {
       // 如果API未实现，使用默认数据
-      console.log('统计API暂未实现，使用默认数据')
       stats.value = {
         tokensRemaining: 100,
         tokensLimit: 100,
@@ -270,12 +269,10 @@ const loadDashboardData = async () => {
       }
     } catch (error) {
       // 产品列表加载失败，显示空状态
-      console.log('产品API暂未实现')
       recentProducts.value = []
     }
   } catch (error) {
-    console.error('加载数据失败:', error)
-    // 不显示错误提示，使用默认数据让用户可以正常使用
+    // 静默处理错误，使用默认数据让用户可以正常使用
   } finally {
     loading.value = false
   }

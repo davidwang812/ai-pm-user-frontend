@@ -12,9 +12,6 @@ const { initTheme } = useTheme()
 onMounted(() => {
   // 初始化应用主题
   initTheme()
-  
-  // 其他全局初始化逻辑
-  console.log('AI Product Manager 用户端启动成功')
 })
 </script>
 
