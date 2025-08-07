@@ -33,7 +33,7 @@ export const authAPI = {
    * @returns {Promise<void>}
    */
   logout() {
-    return apiClient.post('/user/auth/logout')
+    return apiClient.post('/auth/logout')
   },
 
   /**
@@ -42,7 +42,7 @@ export const authAPI = {
    * @returns {Promise<RefreshResponse>}
    */
   refreshToken(refreshToken) {
-    return apiClient.post('/user/auth/refresh', { refreshToken })
+    return apiClient.post('/auth/refresh', { refreshToken })
   },
 
   /**
@@ -50,7 +50,7 @@ export const authAPI = {
    * @returns {Promise<UserInfoResponse>}
    */
   getUserInfo() {
-    return apiClient.get('/user/auth/current')
+    return apiClient.get('/auth/current')
   },
 
   /**
@@ -61,7 +61,7 @@ export const authAPI = {
    * @returns {Promise<Response>}
    */
   changePassword(passwords) {
-    return apiClient.post('/user/auth/change-password', passwords)
+    return apiClient.post('/auth/change-password', passwords)
   },
 
   /**
@@ -70,7 +70,7 @@ export const authAPI = {
    * @returns {Promise<Response>}
    */
   sendResetPasswordEmail(email) {
-    return apiClient.post('/user/auth/forgot-password', { email })
+    return apiClient.post('/auth/forgot-password', { email })
   },
 
   /**
@@ -81,6 +81,6 @@ export const authAPI = {
    * @returns {Promise<Response>}
    */
   resetPassword(data) {
-    return apiClient.post('/user/auth/reset-password', data)
+    return apiClient.post('/auth/reset-password', data)
   }
 }

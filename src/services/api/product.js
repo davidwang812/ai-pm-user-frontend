@@ -8,7 +8,7 @@ export const productAPI = {
    * @returns {Promise}
    */
   getList(params = {}) {
-    return apiClient.get('/products/list', { params })
+    return apiClient.get('/products', { params })
   },
 
   /**
@@ -27,7 +27,7 @@ export const productAPI = {
    */
   create(data) {
     // 适配后端API格式
-    return apiClient.post('/products/create', {
+    return apiClient.post('/products', {
       product_name: data.name,
       product_description: data.description
     })
