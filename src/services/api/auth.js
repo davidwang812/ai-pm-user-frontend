@@ -10,8 +10,8 @@ export const authAPI = {
    * @returns {Promise<LoginResponse>}
    */
   login(credentials) {
-    return apiClient.post('/user/auth/login', {
-      email: credentials.email,
+    return apiClient.post('/auth/login', {
+      username: credentials.email,  // 后端使用username字段接收邮箱
       password: credentials.password
     })
   },
@@ -25,7 +25,7 @@ export const authAPI = {
    * @returns {Promise<RegisterResponse>}
    */
   register(userData) {
-    return apiClient.post('/user/auth/register', userData)
+    return apiClient.post('/auth/register', userData)
   },
 
   /**

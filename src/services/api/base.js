@@ -3,9 +3,19 @@ import axios from 'axios'
 import { ElMessage } from 'element-plus'
 import router from '@/router'
 
+// 获取API基础URL
+const getBaseURL = () => {
+  // 生产环境使用配置的API URL
+  if (import.meta.env.PROD && import.meta.env.VITE_API_BASE_URL) {
+    return `${import.meta.env.VITE_API_BASE_URL}/api`
+  }
+  // 开发环境使用代理
+  return '/api'
+}
+
 // 创建axios实例
 const apiClient = axios.create({
-  baseURL: '/api',
+  baseURL: getBaseURL(),
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json'
