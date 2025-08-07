@@ -13,21 +13,23 @@
         class="register-form"
         label-position="top"
       >
-        <el-form-item label="用户名" prop="username">
-          <el-input
-            v-model="registerForm.username"
-            placeholder="请输入用户名"
-            prefix-icon="User"
-            size="large"
-          />
-        </el-form-item>
-        
         <el-form-item label="邮箱" prop="email">
           <el-input
             v-model="registerForm.email"
             placeholder="请输入邮箱"
             prefix-icon="Message"
             size="large"
+            @input="handleEmailInput"
+          />
+        </el-form-item>
+        
+        <el-form-item label="用户名" prop="username">
+          <el-input
+            v-model="registerForm.username"
+            placeholder="请输入用户名（自动从邮箱提取，可修改）"
+            prefix-icon="User"
+            size="large"
+            @input="() => hasManuallyEditedUsername = true"
           />
         </el-form-item>
         
@@ -94,6 +96,7 @@ const authStore = useAuthStore()
 
 const registerFormRef = ref()
 const loading = ref(false)
+const hasManuallyEditedUsername = ref(false)
 
 const registerForm = reactive({
   username: '',
@@ -102,6 +105,17 @@ const registerForm = reactive({
   confirmPassword: '',
   agreement: false
 })
+
+// 当用户输入邮箱时，自动提取邮箱前缀作为用户名
+const handleEmailInput = (value) => {
+  // 只有在用户还没有手动编辑过用户名的情况下才自动填充
+  if (!hasManuallyEditedUsername.value && value) {
+    const atIndex = value.indexOf('@')
+    if (atIndex > 0) {
+      registerForm.username = value.substring(0, atIndex)
+    }
+  }
+}
 
 const validatePassword = (rule, value, callback) => {
   if (value === '') {
