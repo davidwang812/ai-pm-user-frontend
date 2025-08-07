@@ -16,6 +16,8 @@
         <el-form-item label="邮箱" prop="email">
           <el-input
             v-model="registerForm.email"
+            type="email"
+            data-testid="register-email"
             placeholder="请输入邮箱"
             prefix-icon="Message"
             size="large"
@@ -26,6 +28,7 @@
         <el-form-item label="用户名" prop="username">
           <el-input
             v-model="registerForm.username"
+            data-testid="register-username"
             placeholder="请输入用户名（自动从邮箱提取，可修改）"
             prefix-icon="User"
             size="large"
@@ -37,6 +40,7 @@
           <el-input
             v-model="registerForm.password"
             type="password"
+            data-testid="register-password"
             placeholder="请输入密码"
             prefix-icon="Lock"
             size="large"
@@ -48,6 +52,7 @@
           <el-input
             v-model="registerForm.confirmPassword"
             type="password"
+            data-testid="register-confirm-password"
             placeholder="请再次输入密码"
             prefix-icon="Lock"
             size="large"
@@ -68,6 +73,7 @@
           <el-button
             type="primary"
             size="large"
+            data-testid="register-submit"
             :loading="loading"
             @click="handleRegister"
             style="width: 100%"

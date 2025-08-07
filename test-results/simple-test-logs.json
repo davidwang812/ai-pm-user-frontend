@@ -1,0 +1,11 @@
+{
+  "console": [],
+  "errors": [],
+  "network": [
+    {
+      "url": "https://aiproductmanager-production.up.railway.app/api/auth/register",
+      "status": 201,
+      "time": "2025-08-07T10:02:28.614Z"
+    }
+  ]
+}
